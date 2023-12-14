@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Anime/Manga</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos.css') }}">
+</head>
+<body>
+    <h1>Registros Guardados:</h1>
+    <ul>
+        <!-- Jinja2 -->
+        {% for persona in personas %}
+        <li>{{persona.email}} -  {{persona.contrasena}} - {{persona.nickname}}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('main.index') }}" class="boton" >Inicio</a>
+</body>
+</html>

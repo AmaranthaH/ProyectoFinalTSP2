@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Animes</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos.css') }}">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden; /* Evita la barra de desplazamiento */
+        }
+
+        #background-gif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        header img {
+            width: 100%; /* Ajusta la imagen al 100% del ancho del encabezado */
+            height: auto; /* Mantiene la proporción de la imagen */
+            position: relative;
+            z-index: 1; /* Aparece encima de la capa de fondo del gif */
+
+            
+        }
+
+        .botones-header {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .boton {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 15px;
+            background-color: #0275d8;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton:hover {
+            background-color: #025aa5;
+        }
+    </style>
+</head>
+<body>
+    <div id="background-gif" style="display: flex; align-items: center; justify-content: flex-end; height: 100vh; margin: 0;">
+        <img src="https://i.pinimg.com/originals/ff/16/e5/ff16e5d60e3ea8d28682e89b5baf5510.gif" alt="Background Gif" style="width: 30%; max-height: 200%;">
+    </div>
+
+    <div id="background-gif" style="display: flex; align-items: center; justify-content: flex-start; height: 100vh; margin: 0;">
+        <img src="https://i.pinimg.com/originals/ff/16/e5/ff16e5d60e3ea8d28682e89b5baf5510.gif" alt="Background Gif" style="width: 30%; max-height: 200%;">
+    </div>
+            <!-- Botones de la pagina principal -->
+    <header>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTITwcgA9qGQAZcXdslSgxsEkn_iRPgMq5h1w&usqp=CAU" alt="Anime Image" style="width: 100%; max-height: 200px;">        
+            <h1>Lista de Animes</h1>
+        <div class="botones-header">
+            <button class="boton" id="botonFormulario">Registro</button>
+            <button class="boton" id="botonIniciarSesion">Iniciar Sesión</button>
+        </div>
+    </header>
+    <main>
+        <!-- Contenido principal de tu página -->
+    </main>
+    <footer>
+        <script src="{{ url_for('static',filename='js/script.js') }}"></script>
+        
+    </footer>
+</body>
+</html>

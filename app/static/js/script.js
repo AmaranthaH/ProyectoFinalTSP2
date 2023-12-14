@@ -1,0 +1,10 @@
+document.addEventListener('DOMContentLoaded',function(){
+    document.getElementById('botonFormulario').addEventListener('click',function(){
+        window.location.href='/formulario';
+    })
+})
+document.addEventListener('DOMContentLoaded',function(){
+    document.getElementById('botonIniciarSesion').addEventListener('click',function(){
+        window.location.href='/iniciar_sesion';
+    })
+})

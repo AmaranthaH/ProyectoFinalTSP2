@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de animes</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/estilos.css') }}">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Ajusta la altura a la altura de la ventana */
+            margin: 0; /* Elimina el margen predeterminado del body */
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .boton {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 15px;
+            background-color: #0275d8;
+            color: white;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton:hover {
+            background-color: #025aa5;
+        }
+
+        .botones-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .gif-container {
+            margin-bottom: 20px; /* Ajusta el margen inferior del contenedor del gif */
+        }
+    </style>
+</head>
+<body>
+    <div class="gif-container">
+        <img src="https://i.pinimg.com/originals/56/7f/00/567f0061446aa28a94721679278bec24.gif" alt="GIF">
+    </div>
+    <h1>Error, Correo ya existente o contraseña mal</h1>
+    <div class="botones-container">
+        <a href="{{ url_for('main.ver_registros') }}" class="boton">Ver Registros</a>
+        <a href="{{ url_for('main.index') }}" class="boton">Inicio</a>
+        <a href="{{ url_for('main.formulario') }}" class="boton">Registrarse</a>
+    </div>
+</body>
+</html>

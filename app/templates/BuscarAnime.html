@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f8f8f8;
+            color: #333;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #008080;
+        }
+
+        #searchForm {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        #searchQuery {
+            font-size: 16px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            font-size: 16px;
+            margin-bottom: 8px;
+            background-color: #fff;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #progressBar {
+            width: 100%;
+            background-color: #ddd;
+            height: 20px;
+            margin-top: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+            display: none;
+            transition: height 0.3s ease, opacity 0.3s ease;
+        }
+
+        #progress {
+            height: 100%;
+            width: 0%;
+            background-color: #4caf50;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .button-container button {
+            font-size: 16px;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #buscarButton {
+            background-color: #008080;
+            color: #fff;
+        }
+
+        #buscarButton:hover {
+            background-color: #005555;
+        }
+
+        #actualizarButton {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        #actualizarButton:hover {
+            background-color: #388e3c;
+        }
+
+        #addToListButton {
+            font-size: 12px;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #2196F3;
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        #addToListButton:hover {
+            background-color: #0b7dda;
+        }
+
+        #guardadoManualButton {
+            font-size: 18px;
+            padding: 8px;
+            border: 50px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #FFD700;
+            color: #333;
+            margin-left: 10px;
+        }
+
+        #guardadoManualButton:hover {
+            background-color: #FFC700;
+        }
+
+        #regresarButton {
+            font-size: 16px;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #d1bc42;
+            color: #333;
+            margin-left: 10px;
+        }
+
+        #regresarButton:hover {
+            background-color: #a3914e;
+        }
+
+        #resultCount {
+            font-size: 14px;
+            color: #888;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Búsqueda</h1>
+
+    <div class="button-container">
+        <a href="{{ url_for('main.RegresarSession') }}"  class="boton" id="regresarButton" >Regresar</a>
+    </div>
+
+
+    <div class="button-container">
+        <a href="{{ url_for('main.GuardadManual') }}"  class="boton" id="guardadoManualButton" >Guardado Manual</a>
+    </div>
+
+    
+    <div id="searchForm">
+        <label for="searchQuery">Buscar Anime:</label>
+        <input type="text" id="searchQuery" name="searchQuery" placeholder="Ingrese su búsqueda" required oninput="performSearch()">
+        <span id="resultCount"></span>
+    </div>
+
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+
+    <div id="results">
+        <ul id="animeList"></ul>
+    </div>
+
+    <div class="button-container">
+        <button id="actualizarButton" onclick="performUpdate()">Actualizar</button>
+    </div>
+
+    <script>
+        function handleResults(responseText) {
+            var resultsContainer = document.getElementById('animeList');
+            var resultCountElement = document.getElementById('resultCount');
+            resultsContainer.innerHTML = '';
+
+            var resultados = JSON.parse(responseText);
+            resultCountElement.textContent = `Coincidencias encontradas: ${resultados.length}`;
+
+            resultados.forEach(function (resultado) {
+                var listItem = document.createElement('li');
+                listItem.textContent = resultado.nombre + ' - Capítulos: ' + resultado.capitulos;
+
+                // Agregar botón para agregar a la lista
+                var addButton = document.createElement('button');
+                addButton.textContent = 'Agregar a mi lista';
+                addButton.onclick = function() {
+                    // Lógica para agregar el anime a la lista (puedes implementar esto)
+                    addToAnimeList(resultado);
+                };
+
+                listItem.appendChild(addButton);
+                resultsContainer.appendChild(listItem);
+            });
+
+            // Ocultar la barra de progreso después de cargar los archivos
+            document.getElementById('progressBar').style.display = 'none';
+        }
+
+        function performSearch() {
+            var searchQuery = document.getElementById('searchQuery').value;
+            document.getElementById('progressBar').style.display = 'block';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/resultados_busqueda', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    handleResults(xhr.responseText);
+                }
+            };
+
+            xhr.send('searchQuery=' + searchQuery);
+        }
+
+        function performUpdate() {
+            var progressBar = document.getElementById('progressBar');
+            progressBar.style.display = 'block';
+            document.getElementById('progress').style.width = '0%';
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/scrap_anime_data', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    performSearch();
+                }
+            };
+
+            xhr.onprogress = function (event) {
+                if (event.lengthComputable) {
+                    var percentComplete = (event.loaded / event.total) * 100;
+                    document.getElementById('progress').style.width = percentComplete + '%';
+                }
+            };
+
+            xhr.onloadend = function () {
+                progressBar.style.display = 'none';
+            };
+
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

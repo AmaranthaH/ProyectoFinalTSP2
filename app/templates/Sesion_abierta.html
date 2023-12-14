@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de animes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            color: #0066cc;
+        }
+
+        #menu {
+            background-color: #0066cc;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .boton {
+            display: inline-block;
+            background-color: #ffffff;
+            color: #0066cc;
+            padding: 8px 12px;
+            margin: 0 5px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .boton:hover {
+            background-color: #0066cc;
+            color: #ffffff;
+        }
+
+        label {
+            color: #ffffff;
+            margin-right: 10px;
+        }
+
+        #animeList {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        #animeItems {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #animeItems li {
+            margin-bottom: 10px;
+        }
+
+        #personaIdTexto {
+            color: #333;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+
+    <h1>Bienvenido Usuario</h1>
+
+    <div id="menu">
+        <button id="verListaBtn" class="boton">Ver Lista</button>
+        <a href="{{ url_for('main.BA') }}" class="boton">Agregar Anime</a>
+        <a href="{{ url_for('main.eliminar_L') }}" class="boton">Eliminar Anime</a>
+        <a href="{{ url_for('main.index') }}" class="boton">Salir Sesión</a>
+        <!-- Movemos la caja de entrada del ID de Persona debajo de los botones -->
+        <label for="personaId">ID de Persona para ver lista:</label>
+        <input type="text" id="personaId" required>
+    </div>
+
+    <div id="animeList">
+        <h2>Lista de Animes</h2>
+        <ul id="animeItems">
+            <!-- Los animes se mostrarán aquí dinámicamente -->
+        </ul>
+        <!-- Movemos el elemento del ID de Persona debajo de la lista de animes -->
+        <p id="personaIdTexto"></p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Función para cargar la lista de animes
+        function cargarListaAnime(personaId) {
+            // Hacer una solicitud AJAX para obtener la lista de animes con el ID de la persona
+            $.get("{{ url_for('main.ver_lista_anime') }}?persona_id=" + personaId, function(data) {
+                // Limpiar la lista actual
+                $("#animeItems").empty();
+
+                // Iterar sobre los datos recibidos y agregar cada anime a la lista
+                data.forEach(function(anime) {
+                    $("#animeItems").append("<li>" + "Anime: " + anime.nombre + " - Capítulos: " + anime.capitulos + "</li>");
+                });
+
+                // Mostrar el ID de la persona antes de la lista
+                $("#personaIdTexto").text("ID de Persona: " + personaId);
+
+                // Mostrar la lista después de cargarla
+                $("#animeList").show();
+            });
+        }
+
+        // Asociar la función de carga de lista al evento click del botón "Ver Lista"
+        $("#verListaBtn").click(function() {
+            // Obtener el ID de la persona desde el input
+            var personaId = $("#personaId").val();
+
+            // Verificar que se haya ingresado un ID antes de cargar la lista
+            if (personaId) {
+                cargarListaAnime(personaId);
+            } else {
+                alert("Por favor, ingresa un ID de persona antes de ver la lista.");
+            }
+        });
+    </script>
+    <div id="background-gif" style="height: 30vh; margin: 5;">
+        <img src="https://i.pinimg.com/originals/ff/16/e5/ff16e5d60e3ea8d28682e89b5baf5510.gif" alt="Background Gif" style="width: 40%; max-height: 200%;">
+    </div>
+</body>
+</html>
