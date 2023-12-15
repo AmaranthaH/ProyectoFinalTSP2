@@ -8,6 +8,8 @@
 
 #En la sección de buscar animes, una vez cargada la información, como se vaya escribiendo en el input, se muestran solo los animes que vayan de acuerdo a la escritura de lo que se está buscando.
 
+#Una cosa más, la carga cuando se pone actualizar es mostrada por una barra, hasta que desaparezca esta significa que ya termino de cargar todo, así que lo mejor es no apretar varias veces el botón, actualizar.
+
 Instalar 
     SQLAlchemy
     flask-sqlalchemy
