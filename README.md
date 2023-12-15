@@ -6,7 +6,7 @@
 
 #Otra cosa que no está bien implementada es el agregado a la lista personal los datos obtenidos de la red, lo mismo, por falta de tiempo y el problema del "login" mencionado antes, pero si se puede cargar, ver y buscar esta información, es decir, si está guardada y es manipulable, pero, siendo la única deficiencia que no se puede agregar a la lista de animes personal.
 
-En la sección de buscar animes, una vez cargada la información, como se vaya escribiendo en el input, se muestran solo los animes que vayan de acuerdo a la escritura de lo que se está buscando.
+#En la sección de buscar animes, una vez cargada la información, como se vaya escribiendo en el input, se muestran solo los animes que vayan de acuerdo a la escritura de lo que se está buscando.
 
 Instalar 
     SQLAlchemy
